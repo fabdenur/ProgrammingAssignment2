@@ -1,15 +1,34 @@
-## Put comments here that give an overall description of what your
-## functions do
+## the first function gets and sets matrix to be inverted
+## the second functions checks whether the matrix has already been inverted and stored; if yes,it retrieves the inverted matrix
+## otherwise it calculates the inverted matrix
 
-## Write a short comment describing this function
+## stores matrix to be inverted via a list of functions to get and set the inputed matriz
 
 makeCacheMatrix <- function(x = matrix()) {
-
+      m <- NULL
+      set <- function(y) {
+            x <<- y
+            m <<- NULL
+      }
+      get <- function() x
+      setinvmat <- function(invmat) m <<- invmat
+      getinvmat <- function() m
+      list(set = set, get = get,
+           setinvmat = setinvmat,
+           getinvmat = getinvmat)
 }
 
 
-## Write a short comment describing this function
+## checks if inverted matrix has already been stored; if yes, retrieves stored matrix; otherwise calculates inverted matrix
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+      m <- x$getinvmat()
+      if(!is.null(m)) {
+            message("getting cached data")
+            return(m)
+      }
+      data <- x$get()
+      m <- solve(data, ...)
+      x$setinvmat(m)
+      m
 }
